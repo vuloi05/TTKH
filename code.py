@@ -10,7 +10,7 @@ pyplot.rcParams['font.family'] = 'serif'
 pyplot.rcParams['font.size'] = 16
 
 # image_out
-output_dir = "C:/image_out"
+output_dir = "C:/image_out1"
 os.makedirs(output_dir, exist_ok=True)
 
 # truong eta
