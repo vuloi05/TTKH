@@ -1,0 +1,317 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2cm]{geometry}
+\usepackage{enumitem}
+
+\newtheorem*{solution}{Lời giải}
+
+\title{\textbf{Bài 5 -- Tìm miền hội tụ của các chuỗi hàm số}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+%=============================================================================
+% a)
+%=============================================================================
+\subsection*{a) $\displaystyle\sum_{n=1}^{\infty}\frac{x}{\left(x^{2}+1\right)^{n}}$}
+
+\begin{solution}
+Đặt $q = \dfrac{1}{x^{2}+1}$.
+
+\textbf{Trường hợp 1:} $x = 0$. Khi đó mọi số hạng tổng quát đều bằng $0$, nên chuỗi hội tụ.
+
+\textbf{Trường hợp 2:} $x \neq 0$. Khi đó $x^{2} > 0$ nên $x^{2}+1 > 1$, suy ra $0 < q = \dfrac{1}{x^{2}+1} < 1$.
+
+Chuỗi viết lại thành:
+\[
+\sum_{n=1}^{\infty} x \cdot q^{n} = x \sum_{n=1}^{\infty} q^{n},
+\]
+đây là chuỗi cấp số nhân với công bội $|q| < 1$, nên hội tụ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(-\infty, +\infty)}$.
+\end{solution}
+
+%=============================================================================
+% b)
+%=============================================================================
+\subsection*{b) $\displaystyle\sum_{n=1}^{\infty}\frac{\sin(nx)}{e^{nx}}$}
+
+\begin{solution}
+\textbf{Trường hợp 1:} $x = 0$. Khi đó $u_n = \dfrac{\sin 0}{e^{0}} = 0$ với mọi $n$. Chuỗi hội tụ.
+
+\textbf{Trường hợp 2:} $x > 0$. Ta có:
+\[
+\left|\frac{\sin(nx)}{e^{nx}}\right| \leq \frac{1}{e^{nx}} = \left(e^{-x}\right)^{n}.
+\]
+Vì $x > 0$ nên $0 < e^{-x} < 1$, chuỗi $\sum \left(e^{-x}\right)^{n}$ là chuỗi cấp số nhân hội tụ. Theo tiêu chuẩn so sánh, chuỗi đã cho hội tụ tuyệt đối.
+
+\textbf{Trường hợp 3:} $x < 0$. Đặt $x = -a$ với $a > 0$. Khi đó:
+\[
+\left|u_n\right| = \frac{|\sin(na)|}{e^{-na}} = |\sin(na)| \cdot e^{na}.
+\]
+Vì $e^{na} \to +\infty$ và $|\sin(na)|$ không tiến về $0$ (với hầu hết giá trị $a > 0$, $|\sin(na)| \geq c > 0$ cho vô hạn giá trị $n$), 
+nên số hạng tổng quát $u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{[0, +\infty)}$.
+\end{solution}
+
+%=============================================================================
+% c)
+%=============================================================================
+\subsection*{c) $\displaystyle\sum_{n=1}^{\infty}\frac{(-1)^{n}}{n^{x}}$}
+
+\begin{solution}
+Đây là chuỗi đan dấu $\sum (-1)^n a_n$ với $a_n = \dfrac{1}{n^x}$.
+
+\textbf{Trường hợp 1:} $x > 0$. Khi đó $a_n = \dfrac{1}{n^x} > 0$, dãy $\{a_n\}$ giảm và $a_n \to 0$. Theo tiêu chuẩn Leibniz, chuỗi hội tụ.
+
+\textbf{Trường hợp 2:} $x = 0$. Khi đó $u_n = (-1)^n$, dãy số hạng tổng quát không tiến về $0$. Chuỗi phân kỳ.
+
+\textbf{Trường hợp 3:} $x < 0$. Khi đó $|u_n| = n^{|x|} \to +\infty$, nên $u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(0, +\infty)}$.
+\end{solution}
+
+%=============================================================================
+% d)
+%=============================================================================
+\subsection*{d) $\displaystyle\sum_{n=1}^{\infty}\frac{1}{x^{n}+1}$}
+
+\begin{solution}
+\textbf{Điều kiện xác định:} $x^n + 1 \neq 0$ với mọi $n \geq 1$.
+
+\textbf{Trường hợp 1:} $|x| > 1$. Khi đó $|x^n + 1| \geq |x|^n - 1$. Với $n$ đủ lớn, $|x|^n - 1 > \dfrac{|x|^n}{2}$, nên:
+\[
+\left|\frac{1}{x^n + 1}\right| \leq \frac{2}{|x|^n} = 2\left(\frac{1}{|x|}\right)^n.
+\]
+Vì $\dfrac{1}{|x|} < 1$, chuỗi $\sum \left(\frac{1}{|x|}\right)^n$ hội tụ. Theo tiêu chuẩn so sánh, chuỗi ban đầu hội tụ tuyệt đối.
+
+\textbf{Trường hợp 2:} $x = 1$. Khi đó $u_n = \dfrac{1}{2}$ với mọi $n$, $u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Trường hợp 3:} $x = -1$. Khi $n$ lẻ, $x^n + 1 = 0$, số hạng không xác định.
+
+\textbf{Trường hợp 4:} $|x| < 1$ (bao gồm $x = 0$). Khi đó $x^n \to 0$ nên $\dfrac{1}{x^n + 1} \to 1 \neq 0$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(-\infty, -1) \cup (1, +\infty)}$.
+\end{solution}
+
+%=============================================================================
+% e)
+%=============================================================================
+\subsection*{e) $\displaystyle\sum_{n=1}^{\infty}\frac{x^{n}}{x^{2n}+1}$}
+
+\begin{solution}
+Nhận xét: $x^{2n} + 1 \geq 1 > 0$ với mọi $x \in \mathbb{R}$, nên các số hạng luôn xác định.
+
+\textbf{Trường hợp 1:} $|x| < 1$. Ta có:
+\[
+\left|\frac{x^n}{x^{2n}+1}\right| \leq \frac{|x|^n}{1} = |x|^n.
+\]
+Chuỗi $\sum |x|^n$ là chuỗi cấp số nhân hội tụ. Theo tiêu chuẩn so sánh, chuỗi hội tụ tuyệt đối.
+
+\textbf{Trường hợp 2:} $|x| > 1$. Ta có:
+\[
+\left|\frac{x^n}{x^{2n}+1}\right| < \frac{|x|^n}{|x|^{2n}} = \frac{1}{|x|^n}.
+\]
+Vì $|x| > 1$ nên $\sum \dfrac{1}{|x|^n}$ là chuỗi cấp số nhân hội tụ. Chuỗi hội tụ tuyệt đối.
+
+\textbf{Trường hợp 3:} $x = 0$. Mọi số hạng bằng $0$. Chuỗi hội tụ.
+
+\textbf{Trường hợp 4:} $x = 1$. Khi đó $u_n = \dfrac{1}{2}$ với mọi $n$, $u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Trường hợp 5:} $x = -1$. Khi đó $u_n = \dfrac{(-1)^n}{2}$, $u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{\mathbb{R} \setminus \{-1, 1\}} = (-\infty,-1)\cup(-1,1)\cup(1,+\infty)$.
+\end{solution}
+
+%=============================================================================
+% f)
+%=============================================================================
+\subsection*{f) $\displaystyle\sum_{n=1}^{\infty}\frac{n^{x}+(-1)^{n}}{n}$}
+
+\begin{solution}
+Tách chuỗi thành hai phần:
+\[
+\sum_{n=1}^{\infty}\frac{n^{x}+(-1)^{n}}{n} = \sum_{n=1}^{\infty} n^{x-1} + \sum_{n=1}^{\infty}\frac{(-1)^n}{n}.
+\]
+
+Chuỗi $\displaystyle\sum_{n=1}^{\infty}\frac{(-1)^n}{n}$ hội tụ theo tiêu chuẩn Leibniz (bằng $-\ln 2$).
+
+Chuỗi $\displaystyle\sum_{n=1}^{\infty} n^{x-1} = \sum_{n=1}^{\infty} \frac{1}{n^{1-x}}$ là chuỗi $p$-Dirichlet, hội tụ khi và chỉ khi $1 - x > 1$, tức $x < 0$.
+
+\textbf{Khi $x < 0$:} Cả hai chuỗi thành phần đều hội tụ, nên chuỗi ban đầu hội tụ.
+
+\textbf{Khi $x \geq 0$:} Chuỗi $\sum n^{x-1}$ phân kỳ (vì $1-x \leq 1$), chuỗi $\sum \frac{(-1)^n}{n}$ hội tụ, nên tổng phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(-\infty, 0)}$.
+\end{solution}
+
+%=============================================================================
+% g)
+%=============================================================================
+\subsection*{g) $\displaystyle\sum_{n=1}^{\infty}\left(x+\frac{1}{n}\right)^{n}$}
+
+\begin{solution}
+Áp dụng tiêu chuẩn Cauchy (tiêu chuẩn căn):
+\[
+\lim_{n\to\infty} \sqrt[n]{|u_n|} = \lim_{n\to\infty} \left|x + \frac{1}{n}\right| = |x|.
+\]
+
+\begin{itemize}
+    \item Nếu $|x| < 1$: theo tiêu chuẩn Cauchy, chuỗi hội tụ.
+    \item Nếu $|x| > 1$: theo tiêu chuẩn Cauchy, chuỗi phân kỳ.
+\end{itemize}
+
+\textbf{Xét $x = 1$:} $u_n = \left(1 + \frac{1}{n}\right)^n \to e \neq 0$. Chuỗi phân kỳ.
+
+\textbf{Xét $x = -1$:} $u_n = \left(-1 + \frac{1}{n}\right)^n = (-1)^n\left(1 - \frac{1}{n}\right)^n \to (-1)^n \cdot e^{-1}$, $u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(-1, 1)}$.
+\end{solution}
+
+%=============================================================================
+% h)
+%=============================================================================
+\subsection*{h) $\displaystyle\sum_{n=1}^{\infty}\left(x^{n}+\frac{1}{2^{n}x^{n}}\right)$}
+
+\begin{solution}
+Điều kiện xác định: $x \neq 0$. Tách chuỗi:
+\[
+\sum_{n=1}^{\infty}\left(x^{n}+\frac{1}{2^{n}x^{n}}\right) = \sum_{n=1}^{\infty} x^n + \sum_{n=1}^{\infty}\left(\frac{1}{2x}\right)^n.
+\]
+
+Cả hai đều là chuỗi cấp số nhân:
+\begin{itemize}
+    \item $\sum x^n$ hội tụ $\Leftrightarrow |x| < 1$.
+    \item $\sum \left(\frac{1}{2x}\right)^n$ hội tụ $\Leftrightarrow \left|\frac{1}{2x}\right| < 1 \Leftrightarrow |x| > \frac{1}{2}$.
+\end{itemize}
+
+Chuỗi ban đầu hội tụ khi cả hai chuỗi thành phần đều hội tụ:
+\[
+\frac{1}{2} < |x| < 1 \quad\Leftrightarrow\quad x \in \left(-1, -\frac{1}{2}\right) \cup \left(\frac{1}{2}, 1\right).
+\]
+
+\textbf{Kiểm tra biên:}
+\begin{itemize}
+    \item $x = 1$ hoặc $x = -1$: $\sum x^n$ phân kỳ.
+    \item $x = \frac{1}{2}$: $\sum \left(\frac{1}{2\cdot\frac{1}{2}}\right)^n = \sum 1$ phân kỳ.
+    \item $x = -\frac{1}{2}$: $\sum (-1)^n$ phân kỳ.
+\end{itemize}
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{\left(-1,-\frac{1}{2}\right) \cup \left(\frac{1}{2}, 1\right)}$.
+\end{solution}
+
+%=============================================================================
+% i)
+%=============================================================================
+\subsection*{i) $\displaystyle\sum_{n=1}^{\infty}\frac{n}{x^{n}}$}
+
+\begin{solution}
+Viết lại: $u_n = n \cdot \left(\dfrac{1}{x}\right)^n$.
+
+Áp dụng tiêu chuẩn Cauchy:
+\[
+\lim_{n\to\infty} \sqrt[n]{|u_n|} = \lim_{n\to\infty} n^{1/n} \cdot \frac{1}{|x|} = 1 \cdot \frac{1}{|x|} = \frac{1}{|x|}.
+\]
+
+\begin{itemize}
+    \item Nếu $\dfrac{1}{|x|} < 1$, tức $|x| > 1$: chuỗi hội tụ.
+    \item Nếu $\dfrac{1}{|x|} > 1$, tức $|x| < 1$: chuỗi phân kỳ.
+\end{itemize}
+
+\textbf{Xét $|x| = 1$:} $|u_n| = n \to +\infty$. Chuỗi phân kỳ.
+
+\textbf{Xét $x = 0$:} Không xác định.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(-\infty, -1) \cup (1, +\infty)}$.
+\end{solution}
+
+%=============================================================================
+% j)
+%=============================================================================
+\subsection*{j) $\displaystyle\sum_{n=1}^{\infty}\left(\frac{x(x+n)}{n}\right)^{n}$}
+
+\begin{solution}
+Áp dụng tiêu chuẩn Cauchy:
+\[
+\lim_{n\to\infty}\sqrt[n]{|u_n|} = \lim_{n\to\infty}\frac{|x(x+n)|}{n} = \lim_{n\to\infty}\frac{|x| \cdot |x+n|}{n} = \lim_{n\to\infty}|x|\cdot\left|\frac{x}{n}+1\right| = |x|.
+\]
+
+\begin{itemize}
+    \item Nếu $|x| < 1$: chuỗi hội tụ.
+    \item Nếu $|x| > 1$: chuỗi phân kỳ.
+\end{itemize}
+
+\textbf{Xét $x = 1$:}
+\[
+u_n = \left(\frac{n+1}{n}\right)^n = \left(1+\frac{1}{n}\right)^n \to e \neq 0.
+\]
+Chuỗi phân kỳ.
+
+\textbf{Xét $x = -1$:}
+\[
+u_n = \left(\frac{(-1)(n-1)}{n}\right)^n = (-1)^n\left(1 - \frac{1}{n}\right)^n \to (-1)^n \cdot e^{-1},
+\]
+$u_n \not\to 0$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(-1, 1)}$.
+\end{solution}
+
+%=============================================================================
+% k)
+%=============================================================================
+\subsection*{k) $\displaystyle\sum_{n=1}^{\infty}ne^{-nx}$}
+
+\begin{solution}
+Viết lại: $u_n = n\left(e^{-x}\right)^n$. Đặt $q = e^{-x}$.
+
+Áp dụng tiêu chuẩn Cauchy:
+\[
+\lim_{n\to\infty}\sqrt[n]{|u_n|} = \lim_{n\to\infty} n^{1/n}\cdot e^{-x} = e^{-x}.
+\]
+
+\begin{itemize}
+    \item Nếu $e^{-x} < 1$, tức $x > 0$: chuỗi hội tụ.
+    \item Nếu $e^{-x} > 1$, tức $x < 0$: chuỗi phân kỳ.
+\end{itemize}
+
+\textbf{Xét $x = 0$:} $u_n = n \cdot 1 = n \to +\infty$. Chuỗi phân kỳ.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(0, +\infty)}$.
+\end{solution}
+
+%=============================================================================
+% l)
+%=============================================================================
+\subsection*{l) $\displaystyle\sum_{n=1}^{\infty}\frac{(n+x)^{n}}{n^{n+x}}$}
+
+\begin{solution}
+Viết lại:
+\[
+u_n = \frac{(n+x)^n}{n^{n+x}} = \frac{(n+x)^n}{n^n \cdot n^x} = \frac{1}{n^x}\left(\frac{n+x}{n}\right)^n = \frac{1}{n^x}\left(1+\frac{x}{n}\right)^n.
+\]
+
+Ta biết $\displaystyle\lim_{n\to\infty}\left(1+\frac{x}{n}\right)^n = e^x$.
+
+Do đó khi $n \to \infty$:
+\[
+u_n \sim \frac{e^x}{n^x}.
+\]
+
+Áp dụng tiêu chuẩn so sánh giới hạn với chuỗi $\sum \dfrac{1}{n^x}$:
+\[
+\lim_{n\to\infty}\frac{u_n}{1/n^x} = \lim_{n\to\infty}\left(1+\frac{x}{n}\right)^n = e^x \in (0, +\infty).
+\]
+
+Theo tiêu chuẩn so sánh giới hạn, chuỗi $\sum u_n$ và chuỗi $\sum \dfrac{1}{n^x}$ cùng tính chất (cùng hội tụ hoặc cùng phân kỳ).
+
+Chuỗi $\displaystyle\sum_{n=1}^{\infty}\frac{1}{n^x}$ (chuỗi $p$-Dirichlet) hội tụ khi và chỉ khi $x > 1$.
+
+\textbf{Kết luận:} Miền hội tụ là $\boxed{(1, +\infty)}$.
+\end{solution}
+
+\end{document}

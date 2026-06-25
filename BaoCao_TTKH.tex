@@ -1,0 +1,238 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+% --- DOCUMENT SETUP ---
+\geometry{
+    a4paper,
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Báo cáo Bài tập lớn - Mô phỏng sóng thần},
+    pdfpagemode=FullScreen,
+}
+
+% Listings package for code
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% Title format
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% --- TITLE PAGE ---
+\title{
+    \textbf{BÁO CÁO BÀI TẬP LỚN} \\
+    \vspace{0.5cm}
+    \large MÔN HỌC: TÍNH TOÁN KHOA HỌC \\
+    \vspace{1.5cm}
+    \textbf{Đề tài: Mô phỏng sự lan truyền sóng bằng phương trình nước nông 2D}
+}
+\author{
+    \textbf{Sinh viên thực hiện:} \\
+    Nguyễn Văn A \\
+    \vspace{1cm}
+    \textbf{Giảng viên hướng dẫn:} \\
+    (Tên giảng viên)
+}
+\date{\today}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\setcounter{page}{1}
+
+% --- SECTION 1: GIỚI THIỆU ---
+\section{Giới thiệu}
+Trong khuôn khổ môn học Tính toán khoa học, đề tài này tập trung vào việc mô phỏng một hiện tượng vật lý quen thuộc: sự lan truyền của sóng trên mặt nước. Cụ thể, dự án xây dựng một chương trình máy tính dựa trên \textbf{phương trình nước nông 2D (2D Shallow Water Equations)} để mô phỏng sự lan truyền của sóng thần (tsunami) trong một khu vực giả định.
+
+Mục tiêu của dự án bao gồm:
+\begin{itemize}
+    \item Nghiên cứu mô hình toán học của phương trình nước nông và các giả thiết liên quan.
+    \item Áp dụng phương pháp số, cụ thể là \textbf{phương pháp sai phân hữu hạn (Finite Difference Method)}, để rời rạc hóa và giải hệ phương trình.
+    \item Xây dựng chương trình mô phỏng bằng ngôn ngữ lập trình Python, sử dụng các thư viện khoa học như NumPy, Matplotlib và Numba để tối ưu hóa hiệu suất.
+    \item Trực quan hóa kết quả mô phỏng dưới dạng chuỗi ảnh (file TIFF), thể hiện sự thay đổi của mặt nước theo thời gian.
+\end{itemize}
+
+Báo cáo này sẽ trình bày chi tiết về cơ sở lý thuyết, quá trình υλοποίηση chương trình và các kết quả mô phỏng đạt được.
+
+% --- SECTION 2: CƠ SỞ LÝ THUYẾT ---
+\section{Cơ sở lý thuyết}
+\subsection{Phương trình nước nông 2D}
+Phương trình nước nông (SWE) là một hệ các phương trình vi phân riêng phần dạng hyperbolic, được sử dụng để mô tả dòng chảy dưới một bề mặt áp suất (ví dụ như mặt thoáng của chất lỏng). Hệ phương trình này được xây dựng dựa trên định luật bảo toàn khối lượng và bảo toàn động lượng, với một số giả thiết quan trọng:
+\begin{itemize}
+    \item Bước sóng dài hơn nhiều so với độ sâu của lưu chất.
+    \item Vận tốc theo phương thẳng đứng rất nhỏ và có thể bỏ qua.
+    \item Phân bố áp suất theo chiều sâu là phân bố thủy tĩnh.
+\end{itemize}
+
+Dạng phi tuyến của hệ phương trình nước nông 2D có thể được viết như sau:
+
+\begin{enumerate}
+    \item \textbf{Phương trình liên tục (Bảo toàn khối lượng):}
+    \begin{equation}
+        \frac{\partial \eta}{\partial t} + \frac{\partial M}{\partial x} + \frac{\partial N}{\partial y} = 0
+        \label{eq:continuity}
+    \end{equation}
+
+    \item \textbf{Phương trình động lượng theo phương x:}
+    \begin{equation}
+        \frac{\partial M}{\partial t} + \frac{\partial}{\partial x}\left(\frac{M^2}{D}\right) + \frac{\partial}{\partial y}\left(\frac{MN}{D}\right) + gD\frac{\partial \eta}{\partial x} = -f_x
+        \label{eq:momentum_x}
+    \end{equation}
+
+    \item \textbf{Phương trình động lượng theo phương y:}
+    \begin{equation}
+        \frac{\partial N}{\partial t} + \frac{\partial}{\partial x}\left(\frac{MN}{D}\right) + \frac{\partial}{\partial y}\left(\frac{N^2}{D}\right) + gD\frac{\partial \eta}{\partial y} = -f_y
+        \label{eq:momentum_y}
+    \end{equation}
+\end{enumerate}
+
+Trong đó:
+\begin{itemize}
+    \item $\eta(x, y, t)$ là độ cao của mặt thoáng so với mực nước trung bình.
+    \item $h(x, y)$ là độ sâu của đáy (bathymetry) so với mực nước trung bình.
+    \item $D = \eta + h$ là tổng độ sâu của cột nước.
+    \item $M$ và $N$ là các dòng chảy (flux) theo phương x và y, được định nghĩa là $M = uD$ và $N = vD$, với $u, v$ là vận tốc theo các phương.
+    \item $g$ là gia tốc trọng trường.
+    \item $f_x, f_y$ là các số hạng ma sát đáy, trong mô phỏng này được tính theo công thức Manning: $f_x = \frac{gn^2 M \sqrt{M^2+N^2}}{D^{7/3}}$ và $f_y = \frac{gn^2 N \sqrt{M^2+N^2}}{D^{7/3}}$, với $n$ là hệ số nhám Manning.
+\end{itemize}
+
+\subsection{Phương pháp sai phân hữu hạn}
+Để giải hệ phương trình trên bằng máy tính, chúng ta sử dụng phương pháp sai phân hữu hạn. Không gian và thời gian được rời rạc hóa thành một lưới các điểm. Các đạo hàm riêng được xấp xỉ bằng các công thức sai phân. Ví dụ, đạo hàm riêng theo không gian được xấp xỉ bằng sai phân trung tâm bậc hai:
+\begin{equation}
+    \frac{\partial f}{\partial x}\bigg|_{i,j} \approx \frac{f_{i+1,j} - f_{i-1,j}}{2\Delta x}
+\end{equation}
+Và đạo hàm theo thời gian được xấp xỉ bằng sai phân tiến:
+\begin{equation}
+    \frac{\partial f}{\partial t}\bigg|^{n} \approx \frac{f^{n+1} - f^{n}}{\Delta t}
+\end{equation}
+Áp dụng các xấp xỉ này vào hệ phương trình (\ref{eq:continuity}), (\ref{eq:momentum_x}), (\ref{eq:momentum_y}), ta có thể tính toán trạng thái của hệ tại thời điểm $t + \Delta t$ dựa trên trạng thái tại thời điểm $t$.
+
+% --- SECTION 3: IMPLEMENTATION ---
+\section{Cài đặt chương trình}
+Chương trình được viết bằng Python. Dưới đây là đoạn mã chính thực hiện việc cập nhật các trường $\eta$, $M$, và $N$ qua mỗi bước thời gian.
+
+\begin{lstlisting}[language=Python, caption={Hàm cập nhật trường độ cao mặt nước $\eta$}]
+@jit(nopython=True)
+def update_eta_2D(eta, M, N, dx, dy, dt, nx, ny):
+    for i in range(1, nx - 1):
+        for j in range(1, ny - 1):
+            dMdx = (M[j, i + 1] - M[j, i - 1]) / (2. * dx)
+            dNdy = (N[j + 1, i] - N[j - 1, i]) / (2. * dy)
+            eta[j, i] = eta[j, i] - dt * (dMdx + dNdy)
+    # Boundary conditions
+    eta[0, :] = eta[1, :]
+    eta[-1, :] = eta[-2, :]
+    eta[:, 0] = eta[:, 1]
+    eta[:, -1] = eta[:, -2]
+    return eta
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Hàm cập nhật trường động lượng $M$}]
+@jit(nopython=True)
+def update_M_2D(eta, M, N, D, g, h, alpha, dx, dy, dt, nx, ny):
+    arg1 = M ** 2 / D
+    arg2 = M * N / D
+    fric = g * alpha ** 2 * M * numpy.sqrt(M ** 2 + N ** 2) / D ** (7. / 3.)
+    for i in range(1, nx - 1):
+        for j in range(1, ny - 1):
+            darg1dx = (arg1[j, i + 1] - arg1[j, i - 1]) / (2. * dx)
+            darg2dy = (arg2[j + 1, i] - arg2[j - 1, i]) / (2. * dy)
+            detadx = (eta[j, i + 1] - eta[j, i - 1]) / (2. * dx)
+            M[j, i] = M[j, i] - dt * (darg1dx + darg2dy + g * D[j, i] * detadx + fric[j, i])
+    return M
+\end{lstlisting}
+
+Để tăng tốc độ tính toán, chương trình sử dụng thư viện \texttt{numba} với decorator \texttt{@jit(nopython=True)}, giúp biên dịch các hàm Python tính toán nặng thành mã máy hiệu suất cao.
+
+% --- SECTION 4: KẾT QUẢ MÔ PHỎNG ---
+\section{Kết quả mô phỏng}
+Chương trình được chạy với một điều kiện ban đầu là một nhiễu động dạng Gauss ở trung tâm miền tính toán, mô phỏng một sự kiện tạo sóng ban đầu. Các tham số mô phỏng chính bao gồm:
+\begin{itemize}
+    \item Kích thước miền: $100 \times 100$ m.
+    \item Độ sâu không đổi: $h = 50$ m.
+    \item Lưới tính: $401 \times 401$ điểm.
+    \item Gia tốc trọng trường: $g = 9.81$ m/s$^2$.
+    \item Hệ số nhám Manning: $\alpha = 0.025$.
+\end{itemize}
+
+Kết quả của mô phỏng là một chuỗi các file ảnh TIFF được lưu trong thư mục \texttt{image\_out}. Mỗi ảnh biểu diễn trạng thái của mặt nước $\eta$ tại một thời điểm.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image_out/Shallow_water_2D_1100.tiff}
+    \caption{Hình ảnh mô phỏng độ cao mặt nước $\eta$ tại một thời điểm. Sóng lan truyền ra từ trung tâm.}
+    \label{fig:simulation_result}
+\end{figure}
+
+Hình \ref{fig:simulation_result} cho thấy một ví dụ về kết quả mô phỏng. Vòng sóng tròn lan truyền ra từ vị trí nhiễu động ban đầu. Màu sắc biểu diễn độ cao của sóng so với mực nước yên tĩnh (màu đỏ cho đỉnh sóng, màu xanh cho đáy sóng).
+
+% --- SECTION 5: KẾT LUẬN ---
+\section{Kết luận}
+Dự án đã thực hiện thành công việc mô phỏng phương trình nước nông 2D bằng ngôn ngữ Python.
+\begin{itemize}
+    \item Đã xây dựng được một mô hình số ổn định dựa trên phương pháp sai phân hữu hạn.
+    \item Chương trình cho phép mô phỏng và trực quan hóa sự lan truyền của sóng trong một miền cho trước.
+    \item Việc sử dụng Numba đã cải thiện đáng kể hiệu suất tính toán, cho phép thực hiện các mô phỏng với độ phân giải cao trong thời gian hợp lý.
+\end{itemize}
+
+Hướng phát triển tiếp theo có thể bao gồm việc thêm các điều kiện địa hình đáy (bathymetry) phức tạp hơn, υλοποίηση các điều kiện biên phức tạp hơn (như biên hấp thụ sóng), hoặc so sánh kết quả mô phỏng với các lời giải giải tích.
+
+% --- REFERENCES ---
+\begin{thebibliography}{9}
+    \bibitem{ref1}
+    (Placeholder) A. B. Author, \textit{Title of Work}, Publisher, Year.
+\end{thebibliography}
+
+\end{document}
